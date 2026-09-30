@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="airtel_logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AIRTEL CONGO</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              syne: ["Syne", "sans-serif"],
+              dm: ['"DM Sans"', "sans-serif"],
+            },
+            screens: {
+              xs: "480px",
+              "max-360": { max: "360px" },
+              "max-320": { max: "320px" },
+            },
+            keyframes: {
+              dppulse: {
+                "0%": { transform: "scale(1)" },
+                "40%": { transform: "scale(0.95)" },
+                "70%": { transform: "scale(1.04)" },
+                "100%": { transform: "scale(1)" },
+              },
+            },
+            animation: {
+              dppulse: "dppulse 0.5s ease",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style type="text/tailwindcss">
+      @layer base {
+        * {
+          @apply m-0 p-0 box-border;
+        }
+        body {
+          @apply font-dm antialiased;
+        }
+      }
+
+      @layer components {
+        .dp-root {
+          @apply min-h-screen bg-[linear-gradient(145deg,#7a0000,#c0001a_40%,#e8001f,#9a0015)] font-dm text-white relative overflow-x-hidden;
+        }
+
+        .dp-blob {
+          @apply fixed rounded-full blur-[90px] pointer-events-none z-0;
+        }
+        .dp-blob-1 {
+          @apply w-[clamp(200px,50vw,500px)] h-[clamp(200px,50vw,500px)] bg-[#ff505038] top-[-120px] right-[-120px];
+        }
+        .dp-blob-2 {
+          @apply w-[clamp(150px,35vw,350px)] h-[clamp(150px,35vw,350px)] bg-[#a000004d] bottom-[80px] left-[-80px];
+        }
+        .dp-blob-3 {
+          @apply w-[clamp(100px,25vw,250px)] h-[clamp(100px,25vw,250px)] bg-[#ffb4001a] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+        }
+
+        .dp-header {
+          @apply flex items-center justify-between p-[clamp(12px,3vw,18px)_clamp(16px,4vw,28px)] relative z-10 backdrop-blur-[14px] bg-[#0000002e] border-b border-[rgba(255,255,255,0.12)] max-360:p-[10px_12px];
+        }
+        .dp-logo-wrap {
+          @apply flex items-center shrink-0;
+        }
+        .dp-logo {
+          @apply h-[clamp(26px,6vw,36px)] [filter:brightness(0)_invert(1)] block;
+        }
+        .dp-collab-center {
+          @apply flex flex-col items-center justify-center gap-[3px] flex-1 px-[clamp(8px,2vw,20px)];
+        }
+        .dp-collab-text {
+          @apply font-dm text-[clamp(8px,2.2vw,11px)] font-medium tracking-[0.16em] uppercase text-[#ffffffb3] whitespace-nowrap;
+        }
+        .dp-collab-brand {
+          @apply flex items-center gap-[clamp(5px,1.5vw,10px)];
+        }
+        .dp-starlink-wordmark {
+          @apply font-syne text-[clamp(14px,3.8vw,22px)] font-extrabold text-white tracking-[0.18em] uppercase leading-none [text-shadow:0_2px_12px_rgba(0,0,0,0.35)] whitespace-nowrap;
+        }
+        .dp-starlink-logo {
+          @apply h-[clamp(18px,4.5vw,28px)] w-auto max-w-[clamp(80px,20vw,130px)] block shrink-0 object-contain;
+        }
+        .dp-menu-btn {
+          @apply shrink-0 bg-[#ffffff26] border border-[rgba(255,255,255,0.22)] rounded-[10px] w-[clamp(36px,8vw,44px)] h-[clamp(36px,8vw,44px)] flex flex-col items-center justify-center gap-[5px] cursor-pointer p-0 transition-colors duration-200 hover:bg-[#ffffff40];
+        }
+        .dp-menu-btn span {
+          @apply block w-[18px] h-[2px] bg-white rounded-[2px];
+        }
+
+        .dp-main {
+          @apply relative z-[5] pt-0 px-[clamp(12px,4vw,24px)] pb-12 max-w-[520px] mx-auto xs:px-7 xs:pb-14;
+        }
+        .dp-hero {
+          @apply text-center pt-[clamp(24px,6vw,40px)] pb-[clamp(18px,5vw,28px)];
+        }
+        .dp-hero-badge {
+          @apply inline-block bg-[#ffffff24] border border-[rgba(255,255,255,0.28)] backdrop-blur-[8px] rounded-[100px] py-[6px] px-[18px] text-[clamp(11px,3vw,13px)] font-medium mb-4 tracking-[0.03em];
+        }
+        .dp-hero-title {
+          @apply font-syne text-[clamp(28px,8vw,42px)] font-extrabold leading-[1.1] mb-3 tracking-[-0.5px];
+        }
+        .dp-hero-accent {
+          @apply block bg-[linear-gradient(90deg,#ffe066,#ffb300)] bg-clip-text text-transparent;
+        }
+        .dp-hero-sub {
+          @apply text-[clamp(13px,3.5vw,15px)] text-[#ffffffb8] leading-[1.55] max-w-[320px] mx-auto;
+        }
+
+        .dp-grid {
+          @apply grid grid-cols-2 gap-[clamp(10px,3vw,14px)] mb-7 xs:gap-4 max-360:gap-2 max-320:grid-cols-1;
+        }
+
+        .dp-card {
+          @apply relative bg-white border-[1.5px] border-[rgba(192,0,26,0.1)] rounded-[20px] pt-[clamp(16px,4vw,22px)] px-[clamp(12px,3vw,16px)] pb-[clamp(14px,3.5vw,18px)] text-center cursor-pointer transition-[transform,box-shadow,border-color] duration-[220ms] ease-[ease] text-[#1a0000] font-dm overflow-hidden shadow-[0_4px_18px_#0000001a] hover:-translate-y-[5px] hover:shadow-[0_18px_40px_#c0001a33] hover:border-[#c0001a4d] active:scale-[0.97] before:content-[''] before:absolute before:inset-0 before:bg-[linear-gradient(135deg,rgba(192,0,26,0.03)_0%,transparent_60%)] before:pointer-events-none before:rounded-[inherit];
+        }
+        .dp-card--hot {
+          @apply border-2 border-[#ffb300] shadow-[0_8px_30px_#ffb30038,0_0_0_1px_#ffb3001f] hover:-translate-y-[6px] hover:shadow-[0_22px_48px_#ffb30047] before:bg-[linear-gradient(135deg,rgba(255,200,0,0.06)_0%,transparent_60%)];
+        }
+        .dp-card--wide {
+          @apply col-span-2 border-2 border-[#ffb300] bg-[linear-gradient(135deg,#fffdf5,#fff_60%)] shadow-[0_8px_30px_#ffb30040,0_0_0_1px_#ffb3001a] hover:-translate-y-[5px] hover:shadow-[0_22px_48px_#ffb3004d] before:bg-[linear-gradient(135deg,rgba(255,200,0,0.08)_0%,transparent_60%)];
+        }
+        .dp-card--selected {
+          @apply !border-[#c0001a] !shadow-[0_0_0_3px_#c0001a33];
+        }
+        .dp-card--animating {
+          @apply animate-dppulse;
+        }
+
+        .dp-badge {
+          @apply absolute top-[-1px] left-1/2 -translate-x-1/2 bg-[linear-gradient(90deg,#ff6b00,#ff3a00)] text-white text-[clamp(9px,2.5vw,11px)] font-bold tracking-[0.04em] py-[4px] px-[14px] rounded-b-[12px] whitespace-nowrap;
+        }
+        .dp-card-speed {
+          @apply text-[clamp(9px,2.5vw,11px)] font-bold tracking-[0.1em] text-[#999] uppercase mb-2 mt-[10px];
+        }
+        .dp-card-data {
+          @apply flex items-baseline justify-center gap-[3px] mb-1;
+        }
+        .dp-card-amount {
+          @apply font-syne text-[clamp(32px,8vw,42px)] font-extrabold leading-none tracking-[-1px] text-[#c0001a];
+        }
+        .dp-card-amount--text {
+          @apply text-[clamp(20px,5.5vw,26px)] tracking-[-0.5px];
+        }
+        .dp-card-amount--infinity {
+          @apply font-syne text-[clamp(40px,11vw,56px)] font-extrabold leading-none tracking-normal text-[#c0001a];
+        }
+        .dp-card-unit {
+          @apply text-[clamp(13px,3.5vw,16px)] font-bold text-[#c0001a] opacity-[0.65] self-end pb-1;
+        }
+        .dp-card-validity {
+          @apply text-[clamp(10px,2.8vw,12px)] text-[#888] font-medium mb-3;
+        }
+        .dp-card-divider {
+          @apply h-px bg-[#c0001a17] mx-[-16px] mb-3;
+        }
+        .dp-card-price {
+          @apply flex items-baseline justify-center gap-[2px] mb-[14px];
+        }
+        .dp-card-currency {
+          @apply text-[clamp(12px,3.2vw,15px)] font-semibold text-[#1a0000] opacity-[0.65];
+        }
+        .dp-card-dollars {
+          @apply font-syne text-[clamp(22px,5.5vw,28px)] font-extrabold leading-none text-[#1a0000];
+        }
+        .dp-card-cta {
+          @apply inline-block bg-[#c0001a] rounded-[100px] py-[clamp(7px,2vw,9px)] px-[clamp(10px,3vw,16px)] text-[clamp(10px,2.5vw,12px)] font-bold tracking-[0.05em] text-white uppercase transition-colors duration-200;
+        }
+        .dp-card:hover .dp-card-cta {
+          @apply bg-[#a50017];
+        }
+
+        .dp-trust {
+          @apply flex items-center justify-center gap-[clamp(8px,3vw,16px)] bg-[#0003] border border-[rgba(255,255,255,0.1)] rounded-[16px] p-[clamp(12px,3vw,16px)] mb-4 backdrop-blur-[8px] flex-wrap max-360:flex-col max-360:gap-2 max-360:items-start max-360:p-[12px_14px];
+        }
+        .dp-trust-item {
+          @apply flex items-center gap-[5px] text-[clamp(10px,2.8vw,12px)] font-medium opacity-[0.82] whitespace-nowrap;
+        }
+        .dp-trust-sep {
+          @apply w-px h-[18px] bg-[#ffffff4d] shrink-0 max-360:hidden;
+        }
+        .dp-footer {
+          @apply text-center text-[clamp(10px,2.8vw,12px)] opacity-[0.38] p-4 relative z-[5];
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dp-root">
+      <div class="dp-blob dp-blob-1"></div>
+      <div class="dp-blob dp-blob-2"></div>
+      <div class="dp-blob dp-blob-3"></div>
+
+      <header class="dp-header">
+        <div class="dp-logo-wrap">
+          <img src="airtel_logo.svg" alt="Airtel" class="dp-logo" />
+        </div>
+        <div class="dp-collab-center">
+          <span class="dp-collab-text">En collaboration avec</span>
+          <div class="dp-collab-brand">
+            <span class="dp-starlink-wordmark">STARLINK</span>
+            <img
+              src="Starlink_Logo.svg"
+              alt="Starlink"
+              class="dp-starlink-logo"
+            />
+          </div>
+        </div>
+        <button class="dp-menu-btn" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </header>
+
+      <main class="dp-main">
+        <div class="dp-hero">
+          <div class="dp-hero-badge">📶 Forfaits Internet</div>
+          <h1 class="dp-hero-title">
+            Restez Connecté<br />
+            <span class="dp-hero-accent">Sans Limites</span>
+          </h1>
+          <p class="dp-hero-sub">
+            Choisissez un forfait. Vous serez redirigé vers la page de connexion
+            Airtel Lite pour procéder au paiement.
+          </p>
+        </div>
+
+        <div class="dp-grid" id="dp-grid"></div>
+
+        <div class="dp-trust">
+          <div class="dp-trust-item">
+            <span>⚡</span> Activation instantanée
+          </div>
+          <div class="dp-trust-sep"></div>
+          <div class="dp-trust-item"><span>🔒</span> Paiement sécurisé</div>
+          <div class="dp-trust-sep"></div>
+          <div class="dp-trust-item"><span>📞</span> Support 24/7</div>
+        </div>
+      </main>
+
+      <footer class="dp-footer">
+        © 2026 Airtel Congo. Tous droits réservés.
+      </footer>
+    </div>
+
+    <script>
+      const KEY_SESSION = "app_session";
+      const KEY_PENDING = "app_pending_plan";
+      function getSession() {
+        try {
+          return JSON.parse(localStorage.getItem(KEY_SESSION) || "null");
+        } catch {
+          return null;
+        }
+      }
+
+      const plans = [
+        {
+          id: "starter",
+          dataValue: 1,
+          unit: "GB",
+          price: 0.19,
+          validity: "1 Jour",
+          badge: null,
+          highlight: true,
+          speed: "4G",
+        },
+        {
+          id: "basic",
+          dataValue: 3,
+          unit: "GB",
+          price: 0.39,
+          validity: "3 Jours",
+          badge: null,
+          highlight: false,
+          speed: "4G",
+        },
+        {
+          id: "standard",
+          dataValue: 7,
+          unit: "GB",
+          price: 0.79,
+          validity: "7 Jours",
+          badge: null,
+          highlight: false,
+          speed: "4G",
+        },
+        {
+          id: "popular",
+          dataValue: 15,
+          unit: "GB",
+          price: 1.49,
+          validity: "7 Jours",
+          badge: "⚡ Populaire",
+          highlight: false,
+          speed: "4G",
+        },
+        {
+          id: "pro",
+          dataValue: 30,
+          unit: "GB",
+          price: 2.99,
+          validity: "21 Jours",
+          badge: "💎 Pro",
+          highlight: false,
+          speed: "4G+",
+        },
+        {
+          id: "max",
+          dataValue: 50,
+          unit: "GB",
+          price: 5.49,
+          validity: "30 Jours",
+          badge: "🚀 Max",
+          highlight: false,
+          speed: "4G+",
+        },
+        {
+          id: "unlimited",
+          dataValue: "∞",
+          unit: "Illimité",
+          price: 7.49,
+          validity: "30 Jours",
+          badge: "👑 Illimité",
+          highlight: false,
+          speed: "4G+",
+          unlimited: true,
+          wide: true,
+        },
+      ];
+
+      const grid = document.getElementById("dp-grid");
+      let selectedId = null;
+
+      function render() {
+        grid.innerHTML = plans
+          .map((p) => {
+            const amountCls =
+              "dp-card-amount" +
+              (p.unlimited
+                ? " dp-card-amount--infinity"
+                : typeof p.dataValue === "string"
+                  ? " dp-card-amount--text"
+                  : "");
+            const cardCls = [
+              "dp-card",
+              p.highlight ? "dp-card--hot" : "",
+              p.wide ? "dp-card--wide" : "",
+              selectedId === p.id ? "dp-card--selected" : "",
+            ]
+              .filter(Boolean)
+              .join(" ");
+            const cta =
+              selectedId === p.id ? "✓ Sélectionné" : "Choisir ce forfait";
+            return `
+              <button class="${cardCls}" data-id="${p.id}">
+                ${p.badge ? `<div class="dp-badge">${p.badge}</div>` : ""}
+                <div class="dp-card-speed">${p.speed}</div>
+                <div class="dp-card-data">
+                  <span class="${amountCls}">${p.dataValue}</span>
+                  ${p.unlimited ? "" : `<span class="dp-card-unit">${p.unit}</span>`}
+                </div>
+                <div class="dp-card-validity">Valide ${p.validity}</div>
+                <div class="dp-card-divider"></div>
+                <div class="dp-card-price">
+                  <span class="dp-card-currency">$</span>
+                  <span class="dp-card-dollars">${p.price.toFixed(2)}</span>
+                </div>
+                <div class="dp-card-cta">${cta}</div>
+              </button>`;
+          })
+          .join("");
+      }
+
+      render();
+
+      grid.addEventListener("click", (e) => {
+        const btn = e.target.closest(".dp-card");
+        if (!btn) return;
+        const id = btn.dataset.id;
+        selectedId = id;
+        render();
+        const active = grid.querySelector(`[data-id="${id}"]`);
+        if (active) {
+          active.classList.add("dp-card--animating");
+          setTimeout(() => active.classList.remove("dp-card--animating"), 500);
+        }
+
+        const plan = plans.find((p) => p.id === id);
+        // Remember the chosen plan, then send the user to log in.
+        localStorage.setItem(KEY_PENDING, JSON.stringify(plan));
+
+        setTimeout(() => {
+          const session = getSession();
+          if (!session) {
+            // Not logged in yet -> open the login page.
+            window.location.href = "/auth";
+            return;
+          }
+          // Already logged in: hand off to a real payment processor here. The
+          // provider (e.g. Airtel Money Collections API, Flutterwave, Paystack)
+          // collects the PIN/OTP on THEIR secure page — never on ours.
+          alert(
+            "Forfait sélectionné : " +
+              plan.dataValue +
+              (plan.unlimited ? "" : " " + plan.unit) +
+              " — $" +
+              plan.price.toFixed(2) +
+              "\n\nÉtape suivante : redirection vers le paiement sécurisé de l'opérateur.",
+          );
+        }, 550);
+      });
+    </script>
+  </body>
+</html>

